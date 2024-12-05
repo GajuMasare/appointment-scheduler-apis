@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import connectToMongoDB from "./db/connetToMongoDB.js";
 import authRoutes from "./routes/auth.js";
+import availabilityRoutes from "./routes/availability.js";
 
 dotenv.config();
 const app = express();
@@ -29,6 +30,7 @@ app.get("/", (req, res) => {
 // });
 
 app.use("/api/auth", authRoutes);
+app.use("/api/availability", availabilityRoutes);
 
 app.listen(PORT, () => {
   connectToMongoDB();

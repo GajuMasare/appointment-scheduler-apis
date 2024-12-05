@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
 
 const AvailabilitySchema = new mongoose.Schema({
-  professorId: {
+  professor: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
-  slots: [{ type: Date, required: true }],
+  date: { type: Date, required: true },
+  slots: [{ type: [String], required: true }],
 });
 
 const Availability = mongoose.model("Availability", AvailabilitySchema);
