@@ -3,39 +3,39 @@ import User from "../models/User.js";
 
 //To add Availability, prof only
 const addAvailability = async (req, res) => {
+  const { availableSlots } = req.body;
+
+  //only prof can add avaialbe time
+  if (req.user.role !== "professor") {
+    return res
+      .status(403)
+      .json({ message: "Denied. Only prof can add availability" });
+  }
+
   try {
-    //check that the user is a prof
-    if (req.user.role !== "professor") {
-      return res
-        .status(403)
-        .json({ Message: "Only professprs can make a availabilty" });
+    let availability = await Availability.findOne({ professorId: req.user.id });
+
+    if (availability) {
+      //add this new slot to prev one since it was created before too
+      availability.availableSlots = [
+        ...availability.availableSlots,
+        ...availableSlots,
+      ];
+    } else {
+      availability = new Availability({
+        professorId: req.user.id,
+        availableSlots,
+      });
     }
-
-    const { date, slots } = req.body;
-
-    //validate inputs
-    if (!date || !slots || !Array.isArray(slots)) {
-      return res
-        .status(400)
-        .json({ message: "Invalid input, Provid date and slots" });
-    }
-
-    //save avalable time to database
-    const availability = new Availability({
-      professor: req.user.id,
-      date,
-      slots,
-    });
 
     await availability.save();
     res
-      .status(201)
-      .json({ message: "Availability added Successfully", availability });
+      .status(200)
+      .json({ message: "Availability added successfully!", availability });
   } catch (error) {
-    res.status(500).json({
-      message: "Error while adding availability",
-      error: error.message,
-    });
+    res
+      .status(500)
+      .json({ message: "Error adding availability", error: error.message });
   }
 };
 
@@ -44,13 +44,22 @@ const getAvailability = async (req, res) => {
   const { professorId } = req.params;
 
   try {
-    const availabilty = await Availability.find({ professor: professorId });
-    res.status(200).json({ availabilty });
+    const availability = await Availability.findOne({ professorId }).populate(
+      "professorId",
+      "name email"
+    );
+
+    if (!availability) {
+      return res
+        .status(404)
+        .json({ message: "No availability found for this professor" });
+    }
+
+    res.status(200).json({ availability });
   } catch (error) {
-    res.status(500).json({
-      message: "Error while finding availability",
-      error: error.message,
-    });
+    res
+      .status(500)
+      .json({ message: "Error fetching availability", error: error.message });
   }
 };
 

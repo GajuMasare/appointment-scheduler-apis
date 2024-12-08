@@ -8,7 +8,7 @@ import {
 const router = express.Router();
 
 //to add avaliabilty, this if for prof only
-router.post("/", authenticate, addAvailability);
+router.post("/add", authenticate, addAvailability);
 
 //to get avaliabilty of a specific prof
 router.get("/:professorId", authenticate, getAvailability);
