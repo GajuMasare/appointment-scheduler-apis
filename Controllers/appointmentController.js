@@ -1,6 +1,6 @@
-import Appointment from "../models/Appointment.js";
-import Availability from "../models/Availability.js";
-import User from "../models/User.js";
+const Appointment = require("../models/Appointment.js");
+const Availability = require("../models/Availability.js");
+const User = require("../models/User.js");
 
 //To book appointment (only student can do this)
 const bookAppointment = async (req, res) => {
@@ -146,7 +146,7 @@ const cancelAppointment = async (req, res) => {
   }
 };
 
-export {
+module.exports = {
   bookAppointment,
   getStudentAppointments,
   getProfessorAppointments,

@@ -1,9 +1,9 @@
-import express from "express";
-import authenticate from "../middlewares/authMiddleware.js";
-import {
+const express = require("express");
+const authenticate = require("../middlewares/authMiddleware.js");
+const {
   addAvailability,
   getAvailability,
-} from "../Controllers/availabilityController.js";
+} = require("../Controllers/availabilityController.js");
 
 const router = express.Router();
 
@@ -13,4 +13,4 @@ router.post("/add", authenticate, addAvailability);
 //to get avaliabilty of a specific prof
 router.get("/:professorId", authenticate, getAvailability);
 
-export default router;
+module.exports = router;

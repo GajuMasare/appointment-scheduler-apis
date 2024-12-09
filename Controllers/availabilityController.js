@@ -1,5 +1,5 @@
-import Availability from "../models/Availability.js";
-import User from "../models/User.js";
+const Availability = require("../models/Availability.js");
+const User = require("../models/User.js");
 
 //To add Availability, prof only
 const addAvailability = async (req, res) => {
@@ -63,4 +63,4 @@ const getAvailability = async (req, res) => {
   }
 };
 
-export { addAvailability, getAvailability };
+module.exports = { addAvailability, getAvailability };

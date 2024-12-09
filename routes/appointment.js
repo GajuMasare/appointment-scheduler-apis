@@ -1,11 +1,11 @@
-import express from "express";
-import {
+const express = require("express");
+const {
   bookAppointment,
   getStudentAppointments,
   getProfessorAppointments,
   cancelAppointment,
-} from "../Controllers/appointmentController.js";
-import authenticate from "../middlewares/authMiddleware.js";
+} = require("../Controllers/appointmentController.js");
+const authenticate = require("../middlewares/authMiddleware.js");
 
 const router = express.Router();
 
@@ -21,4 +21,4 @@ router.delete("/cancel/:appointmentId", authenticate, cancelAppointment);
 //get student appointment
 router.get("/my-appointments", authenticate, getStudentAppointments);
 
-export default router;
+module.exports = router;

@@ -1,7 +1,7 @@
-import User from "../models/User.js";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
-import dotenv from "dotenv";
+const User = require("../models/User.js");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const dotenv = require("dotenv");
 
 dotenv.config();
 
@@ -52,4 +52,4 @@ const loginUser = async (req, res) => {
   }
 };
 
-export { registerUser, loginUser };
+module.exports = { registerUser, loginUser };
