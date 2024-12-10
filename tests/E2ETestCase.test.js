@@ -16,7 +16,7 @@ describe("End-to-End User Flow", () => {
   let professorP1Id;
   let appointmentA1, appointmentA2;
 
-  it("Student A1 authenticates", async () => {
+  it("Student A1 authenticates to access the system.", async () => {
     const response = await request(app)
       .post("/api/auth/login")
       .send({ email: "studentA1@example.com", password: "password123" });
@@ -26,7 +26,7 @@ describe("End-to-End User Flow", () => {
     studentA1Token = response.body.token;
   });
 
-  it("Professor P1 authenticates", async () => {
+  it("Professor P1 authenticates to access the system", async () => {
     const response = await request(app)
       .post("/api/auth/login")
       .send({ email: "professorP1@example.com", password: "password123" });
@@ -36,7 +36,7 @@ describe("End-to-End User Flow", () => {
     professorP1Token = response.body.token;
   });
 
-  it("Professor P1 specifies availability", async () => {
+  it("Professor P1 specifies which time slots he is free for appointments", async () => {
     const response = await request(app)
       .post("/api/availability/add")
       .set("Authorization", `Bearer ${professorP1Token}`)
@@ -54,7 +54,7 @@ describe("End-to-End User Flow", () => {
     professorP1Id = response.body.availability.professorId;
   });
 
-  it("Student A1 views available time slots", async () => {
+  it("Student A1 views available time slots for Professor P1", async () => {
     const response = await request(app)
       .get(`/api/availability/${professorP1Id}`)
       .set("Authorization", `Bearer ${studentA1Token}`);
@@ -66,7 +66,7 @@ describe("End-to-End User Flow", () => {
     );
   });
 
-  it("Student A1 books an appointment", async () => {
+  it("Student A1 books an appointment with Professor P1 for time T1", async () => {
     const response = await request(app)
       .post("/api/appointments/book")
       .set("Authorization", `Bearer ${studentA1Token}`)
@@ -81,7 +81,7 @@ describe("End-to-End User Flow", () => {
     appointmentA1 = response.body.appointment;
   });
 
-  it("Student A2 authenticates", async () => {
+  it("Student A2 authenticates to access the system", async () => {
     const response = await request(app)
       .post("/api/auth/login")
       .send({ email: "studentA2@example.com", password: "password123" });
@@ -91,7 +91,7 @@ describe("End-to-End User Flow", () => {
     studentA2Token = response.body.token;
   });
 
-  it("Student A2 books an appointment", async () => {
+  it("Student A2 books an appointment with Professor P1 for time T2", async () => {
     const response = await request(app)
       .post("/api/appointments/book")
       .set("Authorization", `Bearer ${studentA2Token}`)
@@ -106,7 +106,7 @@ describe("End-to-End User Flow", () => {
     appointmentA2 = response.body.appointment;
   });
 
-  it("Professor P1 cancels Student A1's appointment", async () => {
+  it("Professor P1 cancels the appointment with Student A1", async () => {
     const response = await request(app)
       .delete(`/api/appointments/cancel/${appointmentA1._id}`)
       .set("Authorization", `Bearer ${professorP1Token}`);
@@ -118,7 +118,7 @@ describe("End-to-End User Flow", () => {
     );
   });
 
-  it("Student A1 checks thier appointments", async () => {
+  it("Student A1 checks their appointments and realizes they do not have any pending appointments", async () => {
     const response = await request(app)
       .get("/api/appointments/my-appointments")
       .set("Authorization", `Bearer ${studentA1Token}`);
