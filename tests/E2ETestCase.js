@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("../server.js"); // Your main server file
+const app = require("../server.js");
 const mongoose = require("mongoose");
 
 beforeAll(async () => {
