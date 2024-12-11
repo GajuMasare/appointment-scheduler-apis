@@ -49,9 +49,9 @@ This project implements a RESTful API for managing appointments between students
 1. Clone the repository:
 2. Install dependencies by "npm install"
 3. Creat .env file with following info
-   PORT=8000
-   MONGO_DB_URI=<your_mongo_db_connection_string>
-   JWT_SECRET=<your_secret_key>
+   - PORT=8000
+   - MONGO_DB_URI=<your_mongo_db_connection_string>
+   - JWT_SECRET=<your_secret_key>
 4. Start the server by "npm run server"
 5. Run test by "npm test"
 
